@@ -1,6 +1,6 @@
 ---
 title: "Practical 05"
-author: "S18824"
+author: "S18825"
 date: "2023-10-11"
 output:
   pdf_document: default
