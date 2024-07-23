@@ -1,0 +1,134 @@
+---
+title: "Practical 05"
+author: "S18824"
+date: "2023-10-11"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+```{r}
+co2_rating_cl_data<-read_csv("../data/co2_ratings_cleaned.csv")
+head(co2_rating_cl_data)
+str(co2_rating_cl_data)
+```
+```{r}
+view(co2_rating_cl_data)
+```
+
+1.)Draw a scatter plot between fuel consumption and co2 emission?
+First data is our arguement
+then map (geometric objects)
+change label axis
+what type of plot we want
+theme_bw - to change the background to black and white
+color - to separate using fuel
+we can use ggplot because we can iteratively add more effects that we want
+geom-smooth - to draw regression line
+
+```{r}
+co2_rating_cl_data %>% 
+  ggplot(mapping = aes(x = fcons_combined , y = co2_emission , color = fuel_type)) + 
+  geom_point() +
+  geom_smooth() +
+  xlab("Fuel Consumption") + ylab("Co2_Emission") +
+  theme_bw()
+```
+
+2.) Compare the co2 emission of vehicles based on their fuel type
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = fuel_type,y = co2_emission)) + 
+  geom_bar(stat = "identity") +
+  xlab("Fuel type") + ylab("Co2_Emision")
+```
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = fuel_type,y = co2_emission)) + 
+  geom_boxplot() +
+  xlab("Fuel type") + ylab("Co2_Emision")
+```
+when using bar chart we can only compare the averages but when using side by side box plot we can compare the minimum ,average and maximum value for all fuel type in one view .So, here it is better to use box plot than bar plot.
+
+3.) Bar char with one discrete variable
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x= fuel_type)) +
+  geom_bar()+
+  labs(x = "Fuel type") +
+  theme_classic()
+```
+to change informative labels to axis
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = fuel_type)) +
+  geom_bar()+
+  scale_x_discrete("fuel type" , labels = c("Z" = "permium gasoline",
+                                            "X" = "regular gasoline",
+                                            "D" = "diesel",
+                                            "E" = "ethanol(E85)"))+
+  ylab("Number of vehicles") +
+  theme_classic()
+```
+4.)vehicle class
+#coord_flip - used to avoid the overlapping of labels in x axis
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = vehicle_class)) +
+  geom_bar()+
+  xlab("Vehicle class") +
+  ylab("Number of vehicles")+
+  coord_flip()
+```
+
+5.)To visualize 2 categorical and 1 quantitative
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = fuel_type)) +
+  geom_bar(aes(fill = vehicle_class))+
+  scale_x_discrete("fuel type" , labels = c("Z" = "permium gasoline",
+                                            "X" = "regular gasoline",
+                                            "D" = "diesel",
+                                            "E" = "ethanol(E85)"))+
+  labs(x = "Fuel type", y = "Number of vehicles",fill = "Vehicle class") + 
+  theme_bw()
+  
+```
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = fuel_type)) +
+  geom_bar(aes(fill = vehicle_class),position = "dodge")+
+  scale_x_discrete("fuel type" , labels = c("Z" = "permium gasoline",
+                                            "X" = "regular gasoline",
+                                            "D" = "diesel",
+                                           "E" = "ethanol(E85)"))+
+  labs(x = "Fuel type", y = "Number of vehicles",fill = "Vehicle class")+
+  theme_bw()
+```
+#In this graph we can clearly distinguish the color labels in premium gasoline
+```{r}
+co2_rating_cl_data %>%
+  ggplot(mapping = aes(x = vehicle_class)) +
+  geom_bar(aes(fill = fuel_type),position = "dodge")+
+  coord_flip()
+  scale_x_discrete("fuel type" , labels = c("Z" = "permium gasoline",
+                                            "X" = "regular gasoline",
+                                            "D" = "diesel",
+                                            "E" = "ethanol(E85)"))+
+  labs(x = "Fuel type", y = "Number of vehicles",fill = "Vehicle class") 
+```
+#This is more informative than above graph because in above graph large number of categorical levels than this.
+
+6.)Plot for one continuous variable
+#Histograms,frequency ploygon,density plots
+```{r}
+
+```
+
